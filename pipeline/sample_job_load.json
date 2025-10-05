@@ -1,0 +1,113 @@
+{
+	"name": "sample_job_load",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load bronze",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/dhirajmishra57backup@gmail.com/rgadventures/Sample - load bronze"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Load silver",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Load bronze",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/dhirajmishra57backup@gmail.com/rgadventures/Sample - load silver"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Load gold",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Load silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/dhirajmishra57backup@gmail.com/rgadventures/Sample - load gold"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Fail1",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Load bronze",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "Load silver",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "Load gold",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "job failed",
+					"errorCode": "1"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-09-22T18:12:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

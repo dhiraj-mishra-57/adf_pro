@@ -1,0 +1,21 @@
+{
+	"name": "target_prq",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adls_gen2_adfpro",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "orders",
+				"fileSystem": "target"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

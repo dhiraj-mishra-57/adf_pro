@@ -1,0 +1,21 @@
+{
+	"name": "API_REST_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adls_gen2_adfpro",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "pokemon.json",
+				"folderPath": "API",
+				"fileSystem": "target"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

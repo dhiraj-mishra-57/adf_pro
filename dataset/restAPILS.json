@@ -1,0 +1,19 @@
+{
+	"name": "restAPILS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService_LC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "?offset=20",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

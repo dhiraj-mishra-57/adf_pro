@@ -1,0 +1,9 @@
+{
+	"name": "adevntureworks-datafactoryresource-1hsiwoqk",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f3cb2ac1-d1d5-4cee-a9fc-027359ad5dfc",
+		"tenantId": "01448eb5-79ee-494b-89c2-3f2b819ae696"
+	}
+}

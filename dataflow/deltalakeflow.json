@@ -1,0 +1,121 @@
+{
+	"name": "deltalakeflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "locationDataset",
+						"type": "DatasetReference"
+					},
+					"name": "locationSource",
+					"description": "Import data from the location Dataset"
+				},
+				{
+					"dataset": {
+						"referenceName": "zipcodes",
+						"type": "DatasetReference"
+					},
+					"name": "zipcode"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "adls_gen2_adfpro",
+						"type": "LinkedServiceReference"
+					},
+					"name": "deltaLake",
+					"rejectedDataLinkedService": {
+						"referenceName": "adls_gen2_adfpro",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinLocations"
+				},
+				{
+					"name": "selectLocations"
+				},
+				{
+					"name": "addLoadDate"
+				},
+				{
+					"name": "sortLocation"
+				},
+				{
+					"name": "upsert"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          location_id as string,",
+				"          city as string,",
+				"          state as string,",
+				"          country as string,",
+				"          latitude as string,",
+				"          longitude as string,",
+				"          last_updated_timestamp as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     limit: 10,",
+				"     ignoreNoFilesFound: false,",
+				"     maxColumns: 10) ~> locationSource",
+				"source(output(",
+				"          location_id as string,",
+				"          zipcode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> zipcode",
+				"locationSource, zipcode join(locationSource@location_id == zipcode@location_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinLocations",
+				"joinLocations select(mapColumn(",
+				"          location_id = locationSource@location_id,",
+				"          city,",
+				"          state,",
+				"          country,",
+				"          latitude,",
+				"          longitude,",
+				"          last_updated_timestamp,",
+				"          zipcode",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectLocations",
+				"selectLocations derive(LoadDate = currentDate()) ~> addLoadDate",
+				"addLoadDate sort(asc(state, true),",
+				"     caseInsensitive: true) ~> sortLocation",
+				"sortLocation alterRow(upsertIf(1==1)) ~> upsert",
+				"upsert sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delta',",
+				"     compressionType: 'snappy',",
+				"     compressionLevel: 'Optimal',",
+				"     fileSystem: 'target',",
+				"     folderPath: 'deltalakeflow_d',",
+				"     mergeSchema: false,",
+				"     autoCompact: false,",
+				"     optimizedWrite: false,",
+				"     vacuum: 0,",
+				"     deletable: false,",
+				"     insertable: false,",
+				"     updateable: false,",
+				"     upsertable: true,",
+				"     keys:['location_id'],",
+				"     umask: 0777,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> deltaLake"
+			]
+		}
+	}
+}
