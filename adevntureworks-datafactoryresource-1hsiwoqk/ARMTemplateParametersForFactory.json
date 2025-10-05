@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adevntureworks-datafactoryresource-1hsiwoqk"
+		},
+		"AzureDatabricks_accessToken": {
+			"value": ""
+		},
+		"adfprosqldatabase_password": {
+			"value": ""
+		},
+		"adls_gen2_adfpro_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "0919-145023-2ud1d88b"
+		},
+		"RestService_LC_properties_typeProperties_url": {
+			"value": "https://pokeapi.co/api/v2/pokemon"
+		},
+		"adfprosqldatabase_properties_typeProperties_server": {
+			"value": "adfprotutorialserver.database.windows.net"
+		},
+		"adfprosqldatabase_properties_typeProperties_database": {
+			"value": "adfprodb"
+		},
+		"adfprosqldatabase_properties_typeProperties_userName": {
+			"value": "dhirajadmin"
+		},
+		"adls_gen2_adfpro_properties_typeProperties_url": {
+			"value": "https://adfprotutorial.dfs.core.windows.net/"
+		}
+	}
+}

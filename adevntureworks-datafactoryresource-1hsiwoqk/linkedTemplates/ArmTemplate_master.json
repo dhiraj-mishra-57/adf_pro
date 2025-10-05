@@ -1,0 +1,105 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adevntureworks-datafactoryresource-1hsiwoqk"
+		},
+		"AzureDatabricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks'"
+		},
+		"adfprosqldatabase_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'adfprosqldatabase'"
+		},
+		"adls_gen2_adfpro_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'adls_gen2_adfpro'"
+		},
+		"AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0919-145023-2ud1d88b"
+		},
+		"RestService_LC_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://pokeapi.co/api/v2/pokemon"
+		},
+		"adfprosqldatabase_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "adfprotutorialserver.database.windows.net"
+		},
+		"adfprosqldatabase_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "adfprodb"
+		},
+		"adfprosqldatabase_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "dhirajadmin"
+		},
+		"adls_gen2_adfpro_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adfprotutorial.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adevntureworks-datafactoryresource-1hsiwoqk_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDatabricks_accessToken": {
+						"value": "[parameters('AzureDatabricks_accessToken')]"
+					},
+					"adfprosqldatabase_password": {
+						"value": "[parameters('adfprosqldatabase_password')]"
+					},
+					"adls_gen2_adfpro_accountKey": {
+						"value": "[parameters('adls_gen2_adfpro_accountKey')]"
+					},
+					"AzureDatabricks_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AzureDatabricks_properties_typeProperties_existingClusterId')]"
+					},
+					"RestService_LC_properties_typeProperties_url": {
+						"value": "[parameters('RestService_LC_properties_typeProperties_url')]"
+					},
+					"adfprosqldatabase_properties_typeProperties_server": {
+						"value": "[parameters('adfprosqldatabase_properties_typeProperties_server')]"
+					},
+					"adfprosqldatabase_properties_typeProperties_database": {
+						"value": "[parameters('adfprosqldatabase_properties_typeProperties_database')]"
+					},
+					"adfprosqldatabase_properties_typeProperties_userName": {
+						"value": "[parameters('adfprosqldatabase_properties_typeProperties_userName')]"
+					},
+					"adls_gen2_adfpro_properties_typeProperties_url": {
+						"value": "[parameters('adls_gen2_adfpro_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
